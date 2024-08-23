@@ -20,7 +20,7 @@ import (
 	upgradetypes "cosmossdk.io/x/upgrade/types"
 )
 
-// environment variable names
+//  environment variable names
 const (
 	EnvHome                     = "DAEMON_HOME"
 	EnvName                     = "DAEMON_NAME"
@@ -50,7 +50,7 @@ const (
 	cfgExtension = "toml"
 )
 
-// Config is the information passed in to control the daemon
+//  Config is the information passed in to control the daemon
 type Config struct {
 	Home                     string        `toml:"daemon_home" mapstructure:"daemon_home"`
 	Name                     string        `toml:"daemon_name" mapstructure:"daemon_name"`
@@ -73,22 +73,22 @@ type Config struct {
 	currentUpgrade upgradetypes.Plan
 }
 
-// Root returns the root directory where all info lives
+//  Root returns the root directory where all info lives
 func (cfg *Config) Root() string {
 	return filepath.Join(cfg.Home, rootName)
 }
 
-// DefaultCfgPath returns the default path to the configuration file.
+//  DefaultCfgPath returns the default path to the configuration file.
 func (cfg *Config) DefaultCfgPath() string {
 	return filepath.Join(cfg.Root(), cfgFileName+"."+cfgExtension)
 }
 
-// GenesisBin is the path to the genesis binary - must be in place to start manager
+//  GenesisBin is the path to the genesis binary - must be in place to start manager
 func (cfg *Config) GenesisBin() string {
 	return filepath.Join(cfg.Root(), genesisDir, "bin", cfg.Name)
 }
 
-// UpgradeBin is the path to the binary for the named upgrade
+//  UpgradeBin is the path to the binary for the named upgrade
 func (cfg *Config) UpgradeBin(upgradeName string) string {
 	return filepath.Join(cfg.UpgradeDir(upgradeName), "bin", cfg.Name)
 }
@@ -99,7 +99,7 @@ func (cfg *Config) UpgradeDir(upgradeName string) string {
 	return filepath.Join(cfg.BaseUpgradeDir(), safeName)
 }
 
-// BaseUpgradeDir is the directory containing the named upgrade directories.
+//  BaseUpgradeDir is the directory containing the named upgrade directories.
 func (cfg *Config) BaseUpgradeDir() string {
 	return filepath.Join(cfg.Root(), upgradesDir)
 }
@@ -109,7 +109,7 @@ func (cfg *Config) UpgradeInfoFilePath() string {
 	return filepath.Join(cfg.Home, "data", upgradetypes.UpgradeInfoFilename)
 }
 
-// SymLinkToGenesis creates a symbolic link from "./current" to the genesis directory.
+//  SymLinkToGenesis creates a symbolic link from "./current" to the genesis directory.
 func (cfg *Config) SymLinkToGenesis() (string, error) {
 	genesis := filepath.Join(cfg.Root(), genesisDir)
 	link := filepath.Join(cfg.Root(), currentLink)
@@ -121,7 +121,7 @@ func (cfg *Config) SymLinkToGenesis() (string, error) {
 	return cfg.GenesisBin(), nil
 }
 
-// WaitRestartDelay will block and wait until the RestartDelay has elapsed.
+//  WaitRestartDelay will block and wait until the RestartDelay has elapsed.
 func (cfg *Config) WaitRestartDelay() {
 	if cfg.RestartDelay > 0 {
 		time.Sleep(cfg.RestartDelay)
@@ -156,9 +156,9 @@ func (cfg *Config) CurrentBin() (string, error) {
 	return binpath, nil
 }
 
-// GetConfigFromFile will read the configuration from the config file at the given path.
-// If the file path is not provided, it will read the configuration from the ENV variables.
-// If a file path is provided and ENV variables are set, they will override the values in the file.
+//  GetConfigFromFile will read the configuration from the config file at the given path.
+//  If the file path is not provided, it will read the configuration from the ENV variables.
+//  If a file path is provided and ENV variables are set, they will override the values in the file.
 func GetConfigFromFile(filePath string) (*Config, error) {
 	if filePath == "" {
 		return GetConfigFromEnv(false)
